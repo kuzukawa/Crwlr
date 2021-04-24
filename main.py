@@ -1,11 +1,11 @@
-#-*- using:utf-8 -*-
 import sys
 import argparse
-import urllib.request, urllib.error
+import urllib.request
+import urllib.error
 from WebsiteCrawler import WebsiteCrawler
 
 
-def _url_checker(url):
+def _url_checker():
     """
         urlが有効かつ存在するかをチェックする
     """
@@ -32,12 +32,12 @@ if __name__ == '__main__':
     # 走査対象のURL
     # target_website = 'https://www.seibulions.jp/'
     target_website = args.arg1
-    _url_checker(target_website)
+    _url_checker()
 
     # 収集するURLの限界件数
     try:
         limit_number = int(args.max_count)
-    except(ValueError):
+    except ValueError:
         print(f'bad number: {args.max_count}')
         sys.exit(1)
 
