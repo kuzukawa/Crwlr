@@ -51,8 +51,9 @@ if __name__ == '__main__':
     result_url_list = crawler.crawl()
 
     # 収集したURLの出力
-    print('-------- 結果出力 --------')
+    f = open(f'{urllib.parse.urlparse(target_website).netloc}.txt', 'w')
+    f.write('-------- 結果出力 --------\n')
     for url in result_url_list:
-        print(url)
+        f.write(f'{url}\n')
 
-    print(f'総件数：{len(result_url_list)}')
+    f.write(f'総件数：{len(result_url_list)}\n')
