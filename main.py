@@ -1,16 +1,48 @@
+#-*- using:utf-8 -*-
+import sys
+import argparse
+import urllib.request, urllib.error
 from WebsiteCrawler import WebsiteCrawler
+
+
+def _url_checker(url):
+    """
+        urlが有効かつ存在するかをチェックする
+    """
+    try:
+        f = urllib.request.urlopen(target_website)
+        f.close()
+    except (ValueError, urllib.error.URLError):
+        print(f'url {target_website} is not available.')
+        sys.exit(1)
+
 
 # メイン処理の実行
 if __name__ == '__main__':
 
+    # 引数の取得
+    parser = argparse.ArgumentParser(
+        prog='URL Craawler',
+        description='引数で与えられたURLをクロールしてURLリストを生成します。',
+        usage='python main.py $url --max-count max_url_count')
+    parser.add_argument('arg1', help='target url')
+    parser.add_argument('-m', '--max_count', default='100', help='max url list count')
+    args = parser.parse_args()
+
     # 走査対象のURL
-    target_website = 'https://www.seibulions.jp/'
+    # target_website = 'https://www.seibulions.jp/'
+    target_website = args.arg1
+    _url_checker(target_website)
+
+    # 収集するURLの限界件数
+    try:
+        limit_number = int(args.max_count)
+    except(ValueError):
+        print(f'bad number: {args.max_count}')
+        sys.exit(1)
 
     # ユーザーエージェント
     user_agent = 'foo-Bot/1.0 (xxxxfoo@xxmail.com)'
-
-    # 収集するURLの限界件数
-    limit_number = 100
 
     # クローラーの作成
     crawler = WebsiteCrawler(target_website, user_agent, limit_number)
